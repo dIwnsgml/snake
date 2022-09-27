@@ -8,26 +8,28 @@ from tkinter import *
 import pyautogui as pag
 import keyboard
 import mouse
+from multiprocessing.pool import ThreadPool
+
 
 root = Tk()
 root.title("snake")
 root.geometry("500x500")
 
-
 def search_apple(x, y):
   start = time.time()
   with mss() as sct:
     sct.shot()
-    user_screen = cv2.imread('./monitor-1.png')
-    user_screen = user_screen[y:y+600, x:x+660]
-    #cv2.imshow('d',user_screen)
-    apple = cv2.imread('./app3.png')
-    acc = cv2.matchTemplate(user_screen, apple, cv2.TM_CCOEFF_NORMED)
-    cor = np.where(acc > 0.92)
-    cor = cor[1][0], cor[0][0]
-    print(f"{time.time() - start:.4f}")
-    return cor
-
+  acc_time = time.time()
+  user_screen = cv2.imread('./monitor-1.png')
+  user_screen = user_screen[y:y+600, x:x+660]
+  #cv2.imshow('d',user_screen)
+  apple = cv2.imread('./app3.png')
+  acc = cv2.matchTemplate(user_screen, apple, cv2.TM_CCOEFF_NORMED)
+  print(f"{time.time() - acc_time:.4f}")
+  cor = np.where(acc > 0.92)
+  cor = cor[1][0], cor[0][0]
+  print(f"{time.time() - start:.4f}")
+  return cor
 
 def start():
   board = loc[1][0], loc[0][0]
@@ -45,7 +47,7 @@ def start():
     #print(cor[1], cor[0], trans_cor[0], trans_cor[1], pre)
     #mouse.move(cor[0] + board[0], cor[1] + board[1])
     pre = trans_cor
-    time.sleep(0.25)
+    time.sleep(0.265)
 
   '''for i in range(3):
     start = time.time()
@@ -75,14 +77,14 @@ def change_y(pre_y, cur_y, dir):
       #turn right(bottom)
       print("down")
       keyboard.press_and_release('down arrow')
-      time.sleep((cur_y - pre_y) / 5.5)
+      time.sleep((cur_y - pre_y) / 5.64)
       keyboard.press_and_release('left')
       return 0
     elif(pre_y > cur_y):
       #turn left(up)
       print("up")
       keyboard.press_and_release('up arrow')
-      time.sleep((pre_y - cur_y) / 5.5)
+      time.sleep((pre_y - cur_y) / 5.64)
       keyboard.press_and_release('left')
       return 0
 
@@ -115,7 +117,6 @@ def change_x(pre_x, cur_x, dir):
       #turn left(left)
       keyboard.press_and_release('right')
       return 0
-
 
 
 
