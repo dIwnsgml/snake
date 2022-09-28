@@ -56,7 +56,6 @@ t[1] = threading.Thread(target = search_apple, args = (1578, 519))
 t[0].start()
 t[1].start()
 
-print(f"{time.time() - timer1:.4f}")
 t[0].join()
 t[1].join()
 print(f"{time.time() - timer1:.4f}")
@@ -72,7 +71,7 @@ mouse.move(accuracy()[1][0], accuracy()[0][0])"""
 
 
 #Thread pool
-timer3 = time.time()
+'''timer3 = time.time()
 pool = ThreadPool(processes=1)
 
 cor1 = pool.apply_async(search_apple, (1578, 519))
@@ -83,4 +82,17 @@ returned1 = cor1.get()
 returned2 = cor1.get()
 returned3 = cor1.get()
 print(f"{time.time() - timer3:.4}",returned1, returned2, returned3)
+
+def b():
+  global f
+  f = 'a'
+
+def a():
+
+  v =threading.Thread(target=b)
+  v.start()
+  v.join()
+  print(f)
+
+a()'''
 #mouse.move(0, 0)
